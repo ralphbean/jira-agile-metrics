@@ -593,13 +593,14 @@ def config_to_options(data, cwd=None, extended=False):
     # and last status is complete.
 
     if "workflow" in config:
-        if len(config["workflow"].keys()) < 3:
+        if len(config["workflow"]) < 3:
             raise ConfigError(
                 "`Workflow` section must contain at least three statuses"
             )
 
         column_names = []
-        for name, statuses in config["workflow"].items():
+        for column in config["workflow"]:
+            name, statuses = column["name"], column["statuses"]
             statuses = force_list(statuses)
             options["settings"]["cycle"].append(
                 {"name": name, "statuses": statuses}
